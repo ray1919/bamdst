@@ -554,6 +554,22 @@ static float median_cal(const uint32_t *array, int l)
     return med;
 }
 
+static float min_cal(const uint32_t *array, int l)
+{
+    if (isNull(l))
+        return 0;
+    float min = (float)array[0];
+    if (l == 0)
+        return 0;
+    if (l == 1)
+        return min; 
+    int i;
+    for (i = 1; i < l; ++i) 
+        if ((float)array[i] < min) 
+            min = (float)array[i];
+    return min; 
+}
+
 static float avg_cal(const uint32_t *array, int l)
 {
     if (isNull(l))
@@ -812,7 +828,7 @@ int stat_each_region(loopbams_parameters_t *para, aux_t *a)
     if (isNull(node))
         return 0;
     int j;
-    float avg, med, cov1, cov2;
+    float avg, med, min, cov1, cov2;
     uint32_t lst_start = 0; // uncover region start
     uint32_t lst_stop = 0;  // uncover region stop
 
@@ -859,7 +875,7 @@ int stat_each_region(loopbams_parameters_t *para, aux_t *a)
     }
     else
     {
-        avg = med = cov1 = cov2 = 0.0;
+        avg = med = min = cov1 = cov2 = 0.0;
         for (j = 0; j < node->len; ++j)
         {
             ksprintf(para->pdepths, "%s\t%d\t0\t0\t0\n", para->name, node->start + j);
@@ -871,7 +887,7 @@ int stat_each_region(loopbams_parameters_t *para, aux_t *a)
     }
     // ksprintf(para->pdepths,"\n");
     count_increase(a->c_reg, (int)avg, uint32_t);
-    ksprintf(para->rcov, "%s\t%u\t%u\t%.2f\t%.1f\t%.2f\t%.2f\n", para->name, node->start - 1, node->stop, avg, med,
+    ksprintf(para->rcov, "%s\t%u\t%u\t%.2f\t%.1f\t%.1f\t%.2f\t%.2f\n", para->name, node->start - 1, node->stop, avg, med, min,
              cov1, cov2);
 
     // if (para->rcov->l > WINDOW_SIZE)
@@ -955,7 +971,7 @@ int load_bamfiles(struct opt_aux *f, aux_t *a, bamflag_t *fs)
     bam_header_t *h = a->h;
     loopbams_parameters_t *para = init_loopbams_parameters();
     ksprintf(para->pdepths, "#Chr\tPos\tRaw Depth\tRmdup depth\tCover depth\n");
-    ksprintf(para->rcov, "#Chr\tStart\tStop\tAvg depth\tMedian\tCoverage\tCoverage(FIX)\n");
+    ksprintf(para->rcov, "#Chr\tStart\tStop\tAvg depth\tMedian\tMinimal\tCoverage\tCoverage(FIX)\n");
     if (outdir) chdir(outdir);
     h_uncov_init();
     int i;
