@@ -41,7 +41,7 @@
 #include <sys/stat.h>
 
 static char const *program_name = "bamdst";
-static char const *Version = "1.1.0";
+static char const *Version = "1.1.1";
 
 /* flank region will be stat in the coverage report file,
  * this value can be set by -f / --flank */
@@ -474,7 +474,7 @@ Optional parameters:\n\
  - cumu.plot           distribution data of depth values\n\
  - insert.plot         distribution data of inferred insert size \n\
  - chromosome.report   coverage information for each chromosome\n\
- - region.tsv.gz       mean depth, median depth and coverage of each region\n\
+ - region.tsv.gz       mean depth, median depth, minimal depth and coverage of each region\n\
  - depth.tsv.gz        raw depth, rmdup depth, coverage depth of each position\n\
  - uncover.bed         the bad covered or uncovered region in the probe file\n\
 \n\
@@ -491,7 +491,7 @@ Optional parameters:\n\
 ");
         puts("============\n");
         puts(" HOMEPAGE: \n\
-      https://github.com/shiquan/bamdst\n");
+      https://github.com/ray1919/bamdst\n");
     }
     exit(EXIT_SUCCESS);
 }
