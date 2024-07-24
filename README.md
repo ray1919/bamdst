@@ -1,3 +1,5 @@
+> fork from original, add minimal depth in region.tsv.gz
+
 # bamdst -- a BAM Depth Stat Tool
 
 Bamdst is a lightweight tool to stat the depth coverage of  target regions of bam file(s).
@@ -170,7 +172,7 @@ Depth and coverage information of each chromosome.
 
 **region.tsv.gz**
 
-For each region in probe file (in.bed), average depth, median
+For each region in probe file (in.bed), average depth, median depth, minimal
 
 depth and coverage of these regions will be listed in the file.
 
